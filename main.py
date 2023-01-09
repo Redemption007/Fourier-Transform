@@ -7,7 +7,7 @@ import corrupteur
 from conclusions import concludes
 
 # On définit notre amplitude arbitrairement :
-A = interface.ask_amplitude()
+A, B = interface.ask_amplitude()
 # On définit la pulsation aléatoirement à 10ˆ-3 près
 w = int(1000*(1+2*random()))/1000
 # On définit à partir de celle-ci la fréquence

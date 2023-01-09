@@ -2,20 +2,30 @@ from re import search
 def ask_amplitude():
     answer = input("Le signal doit-il être amorti ?\nRéponses acceptées :\nOui, Yes, Y, 1\nNo, Non, N, 0, Cancel")
     non = search("^(((N|n)*((O|o)*)*(N|n)*)|0*|(Cancel)?)$", answer)
+    s=''
+    lamb = 0
     if (non):
         print("Le signal n'est pas amorti.")
-        return 0
-    lamb = 0
-    s=''
-    while lamb==0 or lamb<0:
+    else:
+        while lamb==0 or lamb<0:
+            try:
+                lamb = float(input("{}Saisissez la valeur souhaitée de l'amortissement : ce nombre doit être décimal, strictememt supérieur à 0".format(s)))
+            except ValueError:
+                pass
+            finally:
+                s = 'Vous devez nécessairement entrer un nombre en chiffres, strictement supérieur à 0. Exemples : 13.55 ou 0.003\n'
+                print("Le coefficient d'amortissement sera de {}.".format(lamb))
+        s = ''
+    amp_t0 = 0
+    while amp_t0==0 or amp_t0<0:
         try:
-            lamb = float(input("{}Saisissez la valeur souhaitée de l'amortissement : ce nombre doit être décimal, strictememt supérieur à 0".format(s)))
+            amp_t0 = float(input("{}Saisissez la valeur souhaitée de l'amplitude à l'origine : ce nombre doit être décimal, strictememt supérieur à 0".format(s)))
         except ValueError:
             pass
         finally:
             s = 'Vous devez nécessairement entrer un nombre en chiffres, strictement supérieur à 0. Exemples : 13.55 ou 0.003\n'
-    print("Le coefficient d'amortissement sera de {}. L'amplitude dépendant du temps sera donc égale à exp(-{}t)".format(lamb, lamb))
-    return lamb
+    print("L'amplitude à l'origine sera de {}. L'amplitude dépendant du temps sera donc égale à {}*exp(-{}t)".format(amp_t0, amp_t0, lamb))
+    return amp_t0, lamb
 
 def ask_phases():
     Z = 0
