@@ -43,15 +43,19 @@ def transfo_fourier(f_freq, f_y, N, nu):
     freq = f_freq[:int(N/2)]
     amp = abs(f_y[:int(N/2)])
     # Cette amplitude doit être normalisée pour correspondre à notre amplitude de départ A_0=1, qu'elle atteindra en 𝜈 = w .
-    amp_normale = amp/amax(amp)
-
     # Affichage de la transformée finale
-    plt.plot(freq, amp_normale)
-    plt.stem(freq[argmax(amp_normale)], amax(amp_normale), markerfmt='k+', linefmt='k--')
-    plt.text(freq[argmax(amp_normale)], 0, '{}'.format(trunc(1000*freq[argmax(amp_normale)])/1000), horizontalalignment = 'center', verticalalignment = 'top')
+    plt.plot(freq, amp, 'x-k')
+
+    # Signalisation du pic fréquentiel, partie verticale
+    plt.stem(freq[argmax(amp)], amax(amp), markerfmt='rx', linefmt='k--', orientation='vertical')
+    plt.text(freq[argmax(amp)], 0, '{}'.format(trunc(1000*freq[argmax(amp)])/1000), horizontalalignment = 'center', verticalalignment = 'top')
+    # Signalisation du pic fréquentiel, partie horizontale
+    plt.stem(amax(amp), freq[argmax(amp)], markerfmt='rx', linefmt='k--', orientation='horizontal')
+    plt.text(0, amax(amp), '{}'.format(trunc(1000*amax(amp))/1000), horizontalalignment = 'left', verticalalignment = 'bottom')
+
     plt.xlim(0, 5*nu)
     plt.grid()
     plt.xlabel("Fréquence v (Hz)")
     plt.ylabel("Amplitude A(v)")
-    plt.title("Transformée de Fourier positive normalisée par  a={}".format((trunc(10000/amax(amp)))/10000))
+    plt.title("Transformée de Fourier positive normalisée par  a=1/N={}".format(trunc(10000/N)/10000))
     plt.show()

@@ -29,7 +29,7 @@ nb_holes = interface.ask_holes(N)
 
 t = np.linspace(0, total_time, N)
 # On définit notre fonction y
-y = lambda x: np.exp(-x*A)*np.sin(w*x+phi)
+y = lambda x: A*np.exp(-x*B)*np.sin(w*x+phi)
 # On corrompt notre fonction en y ajoutant des trous arbitraires et aléatoires
 signal = corrupteur.corruption(y, nb_holes, t)
 
@@ -39,7 +39,8 @@ print("\nOn travaille avec l'équation suivante :\ny(x) = exp({}*x) * sin({} * x
 f_freq = np.fft.fftfreq(signal.size, sampling)
 
 # On calcule la transformée de Fourier de la fonction y
-f_y = np.fft.fft(signal)
+f_y = np.fft.fft(signal, norm="forward")
+# Utilisation d'une normalisation par 1/n via le mot-clé "forward"
 
 plot.graph(f_freq, f_y, t, signal, total_time, nu)
 
