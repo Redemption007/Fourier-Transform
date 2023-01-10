@@ -25,28 +25,31 @@ sampling = 0.010
 N = int(total_time/sampling) + 1
 
 # Nombre de trous :
-nb_holes = interface.ask_holes(N)
+nb_holes, holes_width, holes_freq = interface.ask_holes(N)
 
 t = np.linspace(0, total_time, N)
 # On définit notre fonction y
 y = lambda x: A*np.exp(-x*B)*np.sin(w*x+phi)
 # On corrompt notre fonction en y ajoutant des trous arbitraires et aléatoires
-signal = corrupteur.corruption(y, nb_holes, t)
+signal = corrupteur.corruption(y, t, nb_holes, holes_width, holes_freq)
+signal_ideal = A*np.sin(w*t+phi)
 
-print("\nOn travaille avec l'équation suivante :\ny(x) = exp({}*x) * sin({} * x + {})\ny(x) = A*sin(w*x+phi)".format(A, w, phi))
+print("\nOn travaille avec l'équation suivante :\ny(t) = {}*exp(-{}*t) * sin({} * t + {})\ny(t) = A(t)*sin(w*t+phi)".format(A, B, w, phi))
 
 # Fréquences de la transformée de Fourier
 f_freq = np.fft.fftfreq(signal.size, sampling)
+f_freq_ideal = np.fft.fftfreq(signal_ideal.size, sampling)
 
 # On calcule la transformée de Fourier de la fonction y
 f_y = np.fft.fft(signal, norm="forward")
+f_y_ideal = np.fft.fft(signal_ideal, norm="forward")
 # Utilisation d'une normalisation par 1/n via le mot-clé "forward"
 
-plot.graph(f_freq, f_y, t, signal, total_time, nu)
+plot.graph(f_freq, f_y, t, signal, A, total_time, nu)
 
 print("La fréquence de cette sinusoïde est de nu = {} Hz. Intéressons-nous alors plus précisément au spectre de fréquences.".format(int(nu*1000)/1000))
 
-plot.transfo_fourier(f_freq, f_y, N, nu)
+plot.transfo_fourier(f_freq, f_y, N, nu, f_freq_ideal, f_y_ideal)
 
 concludes(A, Z, nb_holes)
 
