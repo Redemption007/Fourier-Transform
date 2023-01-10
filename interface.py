@@ -7,7 +7,7 @@ def ask_amplitude():
     if (non):
         print("Le signal n'est pas amorti.")
     else:
-        while lamb==0 or lamb<0:
+        while lamb<=0:
             try:
                 lamb = float(input("{}Saisissez la valeur souhaitée de l'amortissement : ce nombre doit être décimal, strictememt supérieur à 0".format(s)))
             except ValueError:
@@ -17,7 +17,7 @@ def ask_amplitude():
                 print("Le coefficient d'amortissement sera de {}.".format(lamb))
         s = ''
     amp_t0 = 0
-    while amp_t0==0 or amp_t0<0:
+    while amp_t0<=0:
         try:
             amp_t0 = float(input("{}Saisissez la valeur souhaitée de l'amplitude à l'origine : ce nombre doit être décimal, strictememt supérieur à 0".format(s)))
         except ValueError:
@@ -30,7 +30,7 @@ def ask_amplitude():
 def ask_phases():
     Z = 0
     s = ''
-    while Z==0 or Z<0 :
+    while Z<=0 :
         try:
             answer = input("{}Saisissez le nombre (décimal ou entier) de périodes que vous souhaitez mesurer :\n".format(s))
             Z = float(answer)
