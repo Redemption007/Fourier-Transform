@@ -28,9 +28,11 @@ N = int(total_time/sampling) + 1
 nb_holes, holes_width, holes_freq = interface.ask_holes(N)
 
 t = np.linspace(0, total_time, N)
+t_ideal = np.linspace(0, int(Z)/nu, N)
 # On définit notre fonction y
 y = lambda x: A*np.exp(-x*B)*np.sin(w*x+phi)
 # On corrompt notre fonction en y ajoutant des trous arbitraires et aléatoires
+# On corrompt notre fonction en y ajoutant éventuellement des trous
 signal = corrupteur.corruption(y, t, nb_holes, holes_width, holes_freq)
 signal_ideal = A*np.sin(w*t+phi)
 

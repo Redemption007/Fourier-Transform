@@ -22,7 +22,7 @@ def graph(f_freq, f_y, x, signal, amp_max, time, nu):
 
     #Affichage des subplots
     axes1.plot(x, signal, linewidth=2, label="y(t) = sin(w*t+phi)", color='#0000ff')
-    axes1.set(xlim=(0, time), ylim=(amp_max-0.4, amp_max+0.4), xlabel='t (en s)', title='Signal sinusoïdal simple')
+    axes1.set(xlim=(0, time), ylim=(-amp_max-0.4, amp_max+0.4), xlabel='t (en s)', title='Signal sinusoïdal simple')
 
     axes2.plot(f_freq, f_y.real, linewidth=2, label= "Re(F(y))", color='#00ff00')
     axes2.set(xlim=(-2*nu, 2*nu), xlabel='Fréquence v (en Hz)', ylabel='Amplitude (unité arbitraire)', title='Partie réelle de la transformée\nde Fourier de y(t)')

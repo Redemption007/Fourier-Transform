@@ -36,7 +36,7 @@ def ask_phases():
             Z = float(answer)
         except ValueError:
             if (answer==''):
-                Z = 3
+                Z = 30
         finally:
             s = 'Vous devez nécessairement entrer un nombre en chiffres, strictement supérieur à 1. Exemples : 0.5 ou 15\n'
     if (Z==1):
@@ -67,14 +67,14 @@ def choose():
         except ValueError:
             if (answer==''):
                 print("Le signal ne sera pas corrompu.")
-                return 0
+                return 1
         finally:
             s = 'Vous devez nécessairement entrer un entier correspondant à l\'une des 4 propositions'
     return chosen
 
-#fonction répartissant les trous aléatoirement
 def randoms(nb):
     T = -1
+    s = ''
     while not (0<T<nb) :
         try:
             answer = input("{}Saisissez le nombre entier de trous aléatoires que vous souhaitez insérer.\nNOMBRE TOTAL D'ÉCHANTILLONS : {}\n".format(s, nb))
@@ -90,14 +90,13 @@ def randoms(nb):
     print("On corrompt le signal ({} points) avec {} trou{}.".format(nb, T, s))
     return T
 
-#fonction répartissant les trous d'une certaine largeur espacés d'un certain intervalle
 def predictables(nb):
     #on demande la largeur des trous
     width = 0
     s = ''
     while not (0<width<nb//4) :
         try:
-            answer = input("{}Saisissez la largeur des bandes blanches que vous souhaitez insérer.\nLARGEUR MAXIMALE DES TROUS : {}\n".format(s, nb/4))
+            answer = input("{}Saisissez la largeur des bandes blanches que vous souhaitez insérer.\nLARGEUR MAXIMALE DES TROUS : {}\n".format(s, nb//4))
             width = int(answer)
         except ValueError:
             pass
