@@ -46,6 +46,57 @@ def ask_phases():
     print("On observera {} période{} de la sinusoïdale étudiée.".format(Z, s))
     return Z
 
+def ask_padding():
+    Z = -1
+    s = ''
+    while Z<0 :
+        try:
+            answer = input("{}Saisissez le nombre entier de répétition de temps de mesure à ajouter :\n".format(s))
+            Z = int(answer)
+        except ValueError:
+            if (answer==''):
+                Z = 0
+        finally:
+            s = 'Vous devez nécessairement entrer un nombre entier en chiffres, supérieur à 0. Exemples : 1 ou 5\n'
+    print("On rajoute {} fois le temps de mesure par zero padding.".format(Z))
+    return Z
+
+def ask_reexcitement(N, A):
+    type = -1
+    s = ''
+    while type<0 :
+        try:
+            answer = input("{}Souhaitez vous des réexcitations ? 0 = Non, 1 = Réexcitations aléatoires, 2 = Réexcitations périodiques".format(s))
+            type = int(answer)
+        except ValueError:
+            if (answer==''):
+                type = 0
+        finally:
+            s = 'Vous devez nécessairement entrer un nombre entier en chiffres, parmis 0, 1 et 2\n'
+        ph = ""
+    if type==0:
+        print("Le signal ne sera pas réexcité.")
+        return 0
+    elif type==1:
+        ph = "{}Entrez le nombre de réexcitations aléatoires que vous voulez donner au signal (nombre total d'échantillons : {}) :\n"
+        num = N
+    else:
+        ph = "{}Entrez le seuil d'amplitude sous lequel le signal sera réexcité (amplitude initiale : {}) :\n"
+        num = A
+    ex = 0
+    s = ''
+    while ex<=0 :
+        try:
+            answer = input(ph.format(s, num))
+            ex = float(answer)
+        except ValueError:
+            pass
+        finally:
+            s = 'Vous devez nécessairement entrer un nombre en chiffres, supérieur à 0. Exemples : 1 ou 5\n'
+    if type==1:
+        return int(ex)
+    return ex
+
 def ask_holes(nb):
     choice = choose()
     a = b = c = 0
