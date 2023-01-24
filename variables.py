@@ -6,7 +6,7 @@ window = Tk()
 w = window.winfo_screenwidth()
 h = window.winfo_screenheight()
 
-var = {
+var_dict = {
     'barplot': {'value': False, 'type': bool, 'cond': ['boolean']},
 
     'initial_amp': {'value': DoubleVar(value=5), 'type': float, 'cond':['positive']},
@@ -42,14 +42,15 @@ var = {
     'reex_sill': {'value': DoubleVar(value=0.5), 'type': float, 'cond':['positive', 'reachable', 'signal damped']}
 }
 
-periods = (var['periods']['value']).get()
-omega = (var['w']['value']).get()
-sampling = (var['sampling']['value']).get()
+periods = (var_dict['periods']['value']).get()
+omega = (var_dict['w']['value']).get()
+sampling = (var_dict['sampling']['value']).get()
 frequency = omega/(2*pi)
 samples = int(periods/(frequency*sampling))
 samples_var = StringVar(value="Échantillons : {}".format(samples))
 frequency_var = StringVar(value="Fréquence : {}".format('%.3f'%frequency))
 signal_on_noise = StringVar(value="Ratio Signal/Bruit :")
+bins = StringVar(value="Fréquence de bin :")
 
 def verif_modif(W, value=None, before=None, show=False):
     widget = window.nametowidget(W)
@@ -59,8 +60,8 @@ def verif_modif(W, value=None, before=None, show=False):
     if not value:
         value = widget.get()
     #accessing properties of the variable
-    v_type = var[name]['type']
-    v_cond = var[name]['cond']
+    v_type = var_dict[name]['type']
+    v_cond = var_dict[name]['cond']
 
     try:
         v = v_type(value)
@@ -76,9 +77,9 @@ def verif_modif(W, value=None, before=None, show=False):
         'boolean': v == ('True'or 'False'),
         'compatible': v == ('without' or 'randoms' or 'periodics'),
         'in scale': v < samples,
-        'non constant': v > (var["periodic_width"]['value']).get(),
-        'reachable': v < (var["initial_amp"]['value']).get(),
-        'signal damped': (var['damping']['value']).get()>0
+        'non constant': v > (var_dict["periodic_width"]['value']).get(),
+        'reachable': v < (var_dict["initial_amp"]['value']).get(),
+        'signal damped': (var_dict['damping']['value']).get()>0
     }
     for c in v_cond:
         if not conditions[c]:
@@ -88,9 +89,9 @@ def verif_modif(W, value=None, before=None, show=False):
     if before != v:
         liste = ['periods', 'w', 'sampling']
         if name in liste:
-            periods_updated = (var['periods']['value']).get()
-            omega_updated = (var['w']['value']).get()
-            sampling_updated = (var['sampling']['value']).get()
+            periods_updated = (var_dict['periods']['value']).get()
+            omega_updated = (var_dict['w']['value']).get()
+            sampling_updated = (var_dict['sampling']['value']).get()
             frequency_updated = omega_updated/(2*pi)
             samples_updated = int(periods_updated/(frequency_updated*sampling_updated))
             samples_var.set("Total : {} échantillons".format(samples_updated))
@@ -109,26 +110,26 @@ def show_error(W, value=None, before=None):
         'periodic': "Le nombre entré doit être inférieur à 2\u03c0.",
         'boolean': "Il faut entrer un booléen.",
         'compatible': "La valeur doit être 'without' ou 'randoms' ou 'periodics'.",
-        'in scale': "Le nombre entré doit être plus petit que le nombre total d'échantillons ({}).".format(int((var['periods']['value']).get()*2*pi/((var['w']['value']).get()*(var['sampling']['value']).get()))),
+        'in scale': "Le nombre entré doit être plus petit que le nombre total d'échantillons ({}).".format(int((var_dict['periods']['value']).get()*2*pi/((var_dict['w']['value']).get()*(var_dict['sampling']['value']).get()))),
         'non constant': "Le nombre entré doit être supérieur à la largeur des trous périodiques.",
         'reachable': "Le nombre entré doit être inférieur à l'amplitude initiale.",
         'signal damped': "Vous devez d'abord fixer un amortissement strictement positif !",
-        'type': "Le type ({}) ne correspond pas. Type attendu : {}".format(type(value), var[name]['type'])
+        'type': "Le type ({}) ne correspond pas. Type attendu : {}".format(type(value), var_dict[name]['type'])
     }
     origin = verif_modif(W, show=True)
     widget.focus()
     if before:
-        (var[name]['value']).set(before)
+        (var_dict[name]['value']).set(before)
     return messagebox.showerror(title="Valeur incorrecte !", icon=messagebox.WARNING,
     message="Oups !\n{} n'est pas une valeur possible pour {} !\n\n{}".format(value, name, descriptions[origin]))
 
 def get_values():
     values = {}
-    for key in var:
+    for key in var_dict:
         try:
-            values[key] = (var[key]['value']).get()
+            values[key] = (var_dict[key]['value']).get()
         except AttributeError:
-            values[key] = var[key]['value']
+            values[key] = var_dict[key]['value']
 
     values['freq'] = values['w']/(2*pi)
     values['samples'] = int(values['periods']/(values['freq']*values['sampling']))
@@ -136,3 +137,18 @@ def get_values():
 
 verif_mod = window.register(verif_modif)
 error = window.register(show_error)
+
+class Object():
+    "Just a wrapper"
+variables = Object()
+variables.h = h
+variables.w = w
+variables.var_dict = var_dict
+variables.samples_var = samples_var
+variables.frequency_var = frequency_var
+variables.signal_on_noise = signal_on_noise
+variables.bins = bins
+variables.verif_mod = verif_mod
+variables.error = error
+variables.verif_modif = verif_modif
+variables.show_error = show_error

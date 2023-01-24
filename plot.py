@@ -1,4 +1,4 @@
-from variables import signal_on_noise
+from variables import variables
 import matplotlib
 
 matplotlib.use('TkAgg')
