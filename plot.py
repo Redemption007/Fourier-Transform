@@ -61,10 +61,9 @@ def transfo_fourier(graph, barplot, x, y, nu, Z, x_id, y_id):
     fig = plt.figure()
     axes = fig.add_subplot(111)
     # On passe le tout en densité spectrale de puissance
-    #psd = (absolute(absolute(y))**2)*nu/Z
-    #psd_id = (absolute(absolute(y_id))**2)*nu/int(Z)
-    psd = absolute(y)
-    psd_id = absolute(y_id)
+    psd = (absolute(absolute(y))**2)/(x[2]-x[1])
+    psd_id = (absolute(absolute(y_id))**2)/(x[2]-x[1])
+
     if barplot:
         axes.bar(x=arange(x_id.size), height=psd_id.tolist(), width=int(1/nu), align='center')
         axes.bar(x=arange(x.size), height=psd.tolist(), align='center')
