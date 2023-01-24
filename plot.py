@@ -43,6 +43,8 @@ def graph_details(graph, x, y, nu):
     fig = plt.figure()
     axes = fig.add_subplot(111)
 
+    pic(x, y)
+
     #Affichage du subplot
     axes.plot(x, y.imag, linewidth=2, label= "Im(F(y))", color='#ff0000')
     axes.plot(x, y.real, linewidth=2, label= "Re(F(y))", color='#00ff00')
@@ -72,7 +74,9 @@ def transfo_fourier(graph, barplot, x, y, nu, Z, x_id, y_id):
         axes.plot(x, psd, 'x-k')
 
     pic(x, psd)
-    signal_on_noise.set("Ratio Signal/Bruit : {}".format("%.3E"%ratio(psd)))
+    pic(x, psd_id)
+    variables.signal_on_noise.set("Ratio Signal/Bruit : {}".format("%.3E"%ratio(psd)))
+    variables.bins.set("Fréquence de bin : {}".format("%.3E"%(x[2]-x[1])))
 
     axes.set(xlim=(0, 5*nu), xlabel="Fréquence v (Hz)", ylabel="Densité spectrale de puissance psd(v)", title="Densité spectrale de puissance normalisée")
     axes.grid()
