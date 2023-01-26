@@ -51,7 +51,7 @@ def graph_details(graph, x, y, nu):
     axes.set(xlim=(0, 2*nu), xlabel='Fréquence v (en Hz)', ylabel='Amplitude (unité arbitraire)', title='Transformée de Fourier de y(t)')
 
     ajust_axes(axes)
-    plt.gcf().subplots_adjust(left = 0.088, bottom = 0.37, right = 0.993, top = 0.95)
+    plt.gcf().subplots_adjust(left = 0.089, bottom = 0.37, right = 0.993, top = 0.95)
 
     figure_canvas = FigureCanvasTkAgg(fig, master=graph)
 
@@ -80,7 +80,7 @@ def transfo_fourier(graph, barplot, x, y, nu, Z, x_id, y_id):
     axes.set(xlim=(0, 5*nu), xlabel="Fréquence v (Hz)", ylabel="Densité spectrale de puissance psd(v)", title="Densité spectrale de puissance normalisée")
     axes.grid()
 
-    plt.gcf().subplots_adjust(left = 0.088, right = 0.993, top = 0.848, bottom=0.2)
+    plt.gcf().subplots_adjust(left = 0.11, right = 0.993, top = 0.848, bottom=0.2)
 
     figure_canvas = FigureCanvasTkAgg(fig, master=graph)
     figure_canvas.get_tk_widget().grid(sticky='EW')
