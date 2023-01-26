@@ -43,4 +43,4 @@ def analyse(signal_graph, graph_1, graph_2):
 
     plot.graph_details(graph_2, f_freq, f_y, val['freq'])
 
-    plot.transfo_fourier(graph_1, val['barplot'], f_freq, f_y, val['freq'], val['periods'], f_freq_ideal, f_y_ideal)
+    plot.graph_psd(graph_1, val['barplot'], f_freq, f_y, val['freq'], val['periods'], f_freq_ideal, f_y_ideal)

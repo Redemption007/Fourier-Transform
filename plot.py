@@ -57,7 +57,7 @@ def graph_details(graph, x, y, nu):
 
     figure_canvas.get_tk_widget().grid(sticky='EWNS')
 
-def transfo_fourier(graph, barplot, x, y, nu, Z, x_id, y_id):
+def graph_psd(graph, barplot, x, y, nu, Z, x_id, y_id):
     fig = plt.figure()
     axes = fig.add_subplot(111)
     # On passe le tout en densité spectrale de puissance
